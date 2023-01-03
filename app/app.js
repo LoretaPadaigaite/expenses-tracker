@@ -16,7 +16,15 @@ const mysqlConfig = {
     port: 3306
   };
   
-  const connection = mysql.createConnection(mysqlConfig);
+const connection = mysql.createConnection(mysqlConfig);
+
+app.get('/expenses', (req, res) => {
+  connection.execute('SELECT * FROM expenses', (err, result) => {
+    res.send(result);
+  });
+});
+
+
 
 const PORT = 3000;
 
