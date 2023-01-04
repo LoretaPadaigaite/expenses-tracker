@@ -1,19 +1,15 @@
-import logo from './logo.svg';
+
 import styled from 'styled-components';
 import './App.css';
+import { Expenses } from './pages/Expenses/Expenses';
 
-
-const Title = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: palevioletred;
-
-`;
 
 function App() {
   return (
     <div className="App">
-      <Title>Expenses tracker</Title>
+
+      <Expenses/>
+
     </div>
   );
 }
