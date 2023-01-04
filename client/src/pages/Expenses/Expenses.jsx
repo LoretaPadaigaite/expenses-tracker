@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react"
+import { API_URL, LOGGED_IN_USER } from "../../constants/constants";
+
+
 
 export const Expenses = () => {
 
@@ -6,7 +9,7 @@ const [expenses, setExpenses] = useState([]);
 const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        fetch('http://localhost:8080/expenses?userId=1')
+        fetch(`${API_URL}/expenses?userId=${LOGGED_IN_USER.id}`)
         .then(res => res.json())
         .then(data => {
             setExpenses(data);
