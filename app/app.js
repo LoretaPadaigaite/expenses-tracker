@@ -42,6 +42,23 @@ app.get('/expenses', (req, res) => {
   });
 });
 
+app.post('/expenses', (req, res) => {
+  const { type, amount, userId } = req.body;
+
+  connection.execute(
+    'INSERT INTO expenses (type, amount, userId) VALUES (?, ?, ?)',
+    [type, amount, userId],
+    (err, result) => {
+      connection.execute(
+        'SELECT * FROM expenses WHERE userId=?', 
+         [userId], 
+         (err, expenses) => {
+            res.send(expenses);
+      });
+    });
+});
+  
+
 
 const PORT = 8080;
 
