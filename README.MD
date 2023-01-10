@@ -1,8 +1,8 @@
 # Expenses tracker
 
 ## BE (Node.js) instructions
-1) Run " npm install "
-2) Fill in ".env" variables
+1) Run 'npm install'
+2) Fill in '.env' variables
 3) Run 'npm start'
 
 ## FE instructions
