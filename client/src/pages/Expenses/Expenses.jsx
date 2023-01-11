@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react"
+import { Form } from "react-router-dom";
 import styled from "styled-components";
+import { Button } from "../../Components/Button/Button";
+import { Input } from "../../Components/Input/Input";
 import { LOGGED_IN_USER } from "../../constants/constants";
 
 const ExpensesList = styled.ul `
@@ -63,7 +66,7 @@ const handleExpenseAdd = (e) => {
         body: JSON.stringify({
             type,
             amount,
-            userId: 1
+            userId: LOGGED_IN_USER.id
         })
     })
     .then((res) => res.json())
@@ -79,28 +82,29 @@ const totalSum = expenses.reduce((totalSum, expense) => totalSum += parseInt(exp
     return (
     <ExpensesList>
 
-        <form onSubmit={handleExpenseAdd}>
-            <input 
+        <Form onSubmit={handleExpenseAdd}>
+
+            <Input 
                 type="text" 
                 placeholder="Type" 
                 required 
                 onChange={(e) => setType(e.target.value)}
                 value={type}
                 />
-            <input 
+            <Input 
                 type='number' 
                 placeholder="Amount" 
                 required
                 onChange={(e) => setAmount(e.target.value)}
                 value={amount}
                 />
-            <button>Add</button>
-        </form>
+            <Button>Add</Button>
+
+        </Form>
 
         <h2>
             Total spent: {totalSum} €
         </h2>
-
         {expenses.map((exp) => (
             <ExpensesListItem key={exp.id}>
                 <ExpensesType>{exp.type}</ExpensesType>

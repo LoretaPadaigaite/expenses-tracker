@@ -64,14 +64,15 @@ app.post('/expenses', (req, res) => {
 app.post('/register', (req, res) => {
   const { name, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 12);
-  bcrypt.compareSync()
 
 
   connection.execute(
     'INSERT INTO users (name, password ) VALUES (?, ?)',
     [name, hashedPassword],
     (err, result) => {
-            res.sendStatus(200);
+      if (err.code === 'ER_DUP_ENTRY') {
+        res.send(result)
+       }
       })
     });
 
@@ -84,14 +85,15 @@ app.post('/login', (req, res) => {
     [name],
     (err, result) => {
      if (result.length === 0) {
-      res.send('Incorrect username or password');
+        res.sendStatus(401);
     } else {
         const passwordHash = result[0].password
         const isPasswordCorrect = bcrypt.compareSync(password, passwordHash);
+
         if (isPasswordCorrect) {
-          res.send(result[0]);
+            res.send(result[0]);
         } else {
-          res.send('Incorrect user name or password');
+            res.sendStatus(401);
         }
      }
     }
