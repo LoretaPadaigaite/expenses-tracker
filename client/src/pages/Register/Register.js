@@ -23,6 +23,10 @@ const FormStyled = styled(Form)`
     padding: 20px;
     width: 400px;
 `;
+const ErrorStyled = styled.div`
+    color: red;
+    text-align: center;
+`;
 
 export const Register = () => {
     const navigate = useNavigate();
@@ -81,7 +85,7 @@ export const Register = () => {
                 value={password}
                 />
 
-                {error && <div>{error}</div>}
+                {error && <ErrorStyled>{error}</ErrorStyled>}
 
                 <Button>Register</Button>
 

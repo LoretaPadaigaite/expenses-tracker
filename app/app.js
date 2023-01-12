@@ -2,7 +2,6 @@ const cors = require('cors');
 const mysql = require('mysql2');
 const express = require('express');
 const bcrypt = require('bcrypt');
-const e = require('cors')
 
 require ('dotenv').config();
 
@@ -65,14 +64,14 @@ app.post('/register', (req, res) => {
   const { name, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 12);
 
-
   connection.execute(
     'INSERT INTO users (name, password ) VALUES (?, ?)',
     [name, hashedPassword],
     (err, result) => {
-      if (err.code === 'ER_DUP_ENTRY') {
-        res.send(result)
+      if (err?.code === 'ER_DUP_ENTRY') {
+        res.sendStatus(400);  
        }
+       res.send(result)
       })
     });
 

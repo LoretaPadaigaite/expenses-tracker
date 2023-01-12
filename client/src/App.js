@@ -1,37 +1,32 @@
-
-import { useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import { PageLayout } from './Components/PageLayout/PageLayout';
+import { UserContextWraper } from './Contexts/UserContextWraper';
 import { Expenses } from './pages/Expenses/Expenses';
 import { Login } from './pages/Login/Login';
+import NotFound from './pages/PageNotFound/NotFound';
 import { Register } from './pages/Register/Register';
 
 
 function App() {
-    const navigate = useNavigate();
-    const [user, setUser] = useState(null);
-
-    const handleLoginSuccess = (user) => {
-      setUser(user);
-      navigate('/');
-    }
 
   return (
-    <div className="App">
+    <UserContextWraper >
 
     <Routes>
-      <Route path='/'element={<PageLayout user={user} />} >
-        <Route index element={<Expenses/>}/>
+      <Route path='/'element={<PageLayout />} >
+        <Route index element={<Expenses />}/>
       </Route>
       
-      <Route path='/login' element={<Login onSuccess={handleLoginSuccess} />} />
+      <Route path='/login' element={<Login />} />
 
-      <Route path='/register' element={<Register onSuccess={handleLoginSuccess} />} />
+      <Route path='/register' element={<Register/>} />
+
+      <Route path="*" element={<NotFound />} />
+       
     </Routes>
  
-    </div>
+    </UserContextWraper>
   );
 }
 

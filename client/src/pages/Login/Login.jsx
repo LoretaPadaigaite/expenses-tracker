@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from '../../Components/Button/Button';
 import { Form } from '../../Components/Form/Form';
 import { Input } from '../../Components/Input/Input';
+import { UserContext } from '../../Contexts/UserContextWraper';
 
 
 const LoginContainer = styled.div`
@@ -23,12 +24,18 @@ const FormStyled = styled(Form)`
     padding: 20px;
     width: 400px;
 `;
+const ErrorStyled = styled.div`
+    color: red;
+    text-align: center;
+`;
 
-export const Login = ({onSuccess}) => {
+export const Login = () => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const { setUser } = useContext(UserContext);
+    const navigate = useNavigate();
 
     const handleLogin = () => {
         setIsLoading(true);
@@ -45,18 +52,18 @@ export const Login = ({onSuccess}) => {
         })
         .then((res) => {
             if (res.status === 401) {
-                throw new Error('Inccorect user name or password.')
+                throw new Error('Inccorect user name or password')
             }
             if (!res.ok) {
-                throw new Error('Something went wrong.')
+                throw new Error('Something went wrong')
             }
                 return res.json();
         })
         .then((data) => {
-            console.log(data);
-            onSuccess(data);
+            setUser(data)
             setIsLoading(false);
-            setError('')
+            setError('');
+            navigate('/');
         })
         .catch((e) => {
             setError(e.message);
@@ -83,7 +90,7 @@ export const Login = ({onSuccess}) => {
                 value={password}
                 />
 
-                {error && <div>{error}</div>}
+                {error && <ErrorStyled>{error}</ErrorStyled>}
 
                 <Button>Login</Button>
 
